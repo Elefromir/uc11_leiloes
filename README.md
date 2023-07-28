@@ -1,2 +1,2 @@
-# uc11_repo_projeto_git
+# uc11 repositório
 Atividade01 da unidade curricular 11 - Senac EAD
