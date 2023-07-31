@@ -2,32 +2,39 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
-
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author Adm
- */
-public class conectaDAO {
+public class ConectaDAO {
     
-    public Connection connectDB(){
-        Connection conn = null;
-        
+    public String url = "jdbc:mysql://localhost:3306/uc11?serverTimezone=UTC";
+    public String user = "root";
+    public String password = "48422394842239";
+    
+    private Connection conexao;
+    
+    public Connection conectarDB(){
         try {
-        
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/uc11?user=root&password=48422394842239");
-            
-        } catch (SQLException erro){
-            JOptionPane.showMessageDialog(null, "Erro ConectaDAO" + erro.getMessage());
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conexao = DriverManager.getConnection(url, user, password);
+            System.out.println("Conexao obtida");
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Erro na conexao"+e);
         }
-        return conn;
+        return conexao;
     }
     
+    public void desconectarDB(){
+        if (conexao != null) {
+            try {
+                conexao.close();
+            } catch (SQLException e) {
+
+            }
+        }
+    }
+    
+    
 }
+
