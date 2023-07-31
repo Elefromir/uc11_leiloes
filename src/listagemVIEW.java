@@ -143,7 +143,7 @@ public class ListagemVIEW extends javax.swing.JFrame {
         
         ProdutosDAO produtosdao = new ProdutosDAO();
         
-        //produtosdao.venderProduto(Integer.parseInt(id));
+        produtosdao.venderProduto(Integer.parseInt(id));
         listarProdutos();
         
     }//GEN-LAST:event_btnVenderActionPerformed
@@ -211,7 +211,7 @@ public class ListagemVIEW extends javax.swing.JFrame {
         
             ProdutosDAO produtosdao = new ProdutosDAO();
             List<ProdutosDTO> listagem = produtosdao.listarProdutos();
-            System.out.println(listagem.isEmpty());
+//            System.out.println(listagem.isEmpty());
             
             DefaultTableModel model = (DefaultTableModel) tblListaProdutos.getModel();
             tblListaProdutos.setRowSorter(new TableRowSorter(model));
