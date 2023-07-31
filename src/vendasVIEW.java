@@ -1,3 +1,8 @@
+
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -14,6 +19,7 @@ public class vendasVIEW extends javax.swing.JFrame {
      */
     public vendasVIEW() {
         initComponents();
+        this.listarProdutosVendidos();
     }
 
     /**
@@ -130,4 +136,27 @@ public class vendasVIEW extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblVendidos;
     // End of variables declaration//GEN-END:variables
+
+
+    private void listarProdutosVendidos(){
+        
+            ProdutosDAO produtosdao = new ProdutosDAO();
+            List<ProdutosDTO> listagem = produtosdao.ListarProdutosVendidos();
+//            System.out.println(listagem.isEmpty());
+            
+            DefaultTableModel model = (DefaultTableModel) tblVendidos.getModel();
+            tblVendidos.setRowSorter(new TableRowSorter(model));
+            model.setNumRows(0);
+            
+            for(ProdutosDTO p : listagem){
+                Object[] obj = new Object[]{p.getId(),p.getNome(),p.getValor(),p.getStatus()};
+                model.addRow(obj);
+            }
+            
+            
+            
+        
+    
+    }
+    
 }
