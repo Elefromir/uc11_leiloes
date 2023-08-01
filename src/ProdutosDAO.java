@@ -43,7 +43,36 @@ public class ProdutosDAO {
         }
         
     }
-    
+    public List<ProdutosDTO> ListarProdutosVendidos(){
+        
+        List<ProdutosDTO> listaProdutosVendidos = new ArrayList<>();
+        ConectaDAO conexaoDAO = new ConectaDAO();
+        Connection conexao = conexaoDAO.conectarDB();
+        
+        try {
+            String sql = "SELECT * FROM produtos WHERE status = 'Vendido'";
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                ProdutosDTO produto = new ProdutosDTO();
+                
+                produto.setId(rs.getInt("id"));
+                produto.setNome(rs.getString("nome"));
+                produto.setValor(rs.getDouble("valor"));
+                produto.setStatus(rs.getString("status"));
+                
+                listaProdutosVendidos.add(produto);
+            }
+            return listaProdutosVendidos;
+            
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar os produtos vendidos: " + e.getMessage());
+            return null;
+        }
+        
+    }
     public List<ProdutosDTO> listarProdutos(){
         String sql = "SELECT * FROM produtos";
         
@@ -74,6 +103,31 @@ public class ProdutosDAO {
             desconectar();
         }
         
+    }
+    
+    public void venderProduto(int id){
+        
+        ConectaDAO conexaoDAO = new ConectaDAO();
+        Connection conexao = conexaoDAO.conectarDB();
+        
+        try {
+            String sql = "UPDATE produtos SET status ='Vendido' where id = ?";
+            PreparedStatement st = conexao.prepareStatement(sql);
+            st.setInt(1, id);
+            
+            int linhasAfetadas = st.executeUpdate();
+            System.out.println("linhasAfetadas: "+linhasAfetadas);
+            if (linhasAfetadas > 0) {
+                System.out.println("Produto vendido com sucesso!");
+            } else {
+                System.out.println("Produto não encontrado ou não pôde ser vendido.");
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Erro ao vender o produto: " + e.getMessage());
+        } finally {
+            conexaoDAO.desconectarDB();
+        }
         
         
     }
